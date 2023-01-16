@@ -1,0 +1,47 @@
+# Enable 32bit architecture
+sudo dpkg --add-architecture i386
+
+#download box86
+
+
+#install box86
+
+
+# Enable 32bit architecture
+sudo dpkg --add-architecture i386
+
+# Download wine
+cd ~/Downloads
+wget https://dl.winehq.org/wine-builds/debian/dists/bullseye/main/binary-i386/wine-devel-i386_7.1~bullseye-1_i386.deb
+wget https://dl.winehq.org/wine-builds/debian/dists/bullseye/main/binary-i386/wine-devel_7.1~bullseye-1_i386.deb
+
+# Extract wine
+dpkg-deb -x wine-devel-i386_7.1~bullseye-1_i386.deb wine-installer
+dpkg-deb -x wine-devel_7.1~bullseye-1_i386.deb wine-installer
+
+# Install wine
+sudo mv wine-installer/opt/wine-devel~/wine
+
+# Run this script before install shortcut
+echo -e '#!/bin/bash\nsetarch linux32 -L '"$HOME/wine/bin/wine "'"$@"' | sudo tee -a /usr/local/bin/wine >/dev/null
+
+# Install shortcut
+sudo ln -s ~/wine/bin/wine /usr/local/bin/wine
+sudo ln -s ~/wine/bin/wineboot /usr/local/bin/wineboot
+sudo ln -s ~/wine/bin/winecfg /usr/local/bin/winecfg
+sudo ln -s ~/wine/bin/wineserver /usr/local/bin/wineserver
+sudo chmod +x /usr/local/bin/wine /usr/local/bin/wineboot /usr/local/bin/winecfg /usr/local/bin/wineserver
+
+# Call box86 for boot wine
+BOX86_NOBANNER=1 winetricks
+
+# Boot wine (make fresh wineprefix in ~/.wine )
+wine wineboot
+
+# Call box86 for install winetricks
+BOX86_NOBANNER=1 winetricks
+
+#Installing winetricks
+sudo apt-get install cabextract -y
+cd ~/Downloads && wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+sudo chmod +x winetricks && sudo mv winetricks /usr/local/bin/
