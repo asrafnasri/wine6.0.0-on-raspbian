@@ -20,7 +20,7 @@ dpkg-deb -x wine-devel-i386_7.1~bullseye-1_i386.deb wine-installer
 dpkg-deb -x wine-devel_7.1~bullseye-1_i386.deb wine-installer
 
 # Install wine
-sudo mv wine-installer/opt/wine-devel~/wine
+sudo mv wine-installer/opt/wine-devel ~/wine
 
 # Run this script before install shortcut
 echo -e '#!/bin/bash\nsetarch linux32 -L '"$HOME/wine/bin/wine "'"$@"' | sudo tee -a /usr/local/bin/wine >/dev/null
